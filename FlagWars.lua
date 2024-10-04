@@ -1,3 +1,4 @@
+--// Made by @kylosilly
 local player = game.Players.LocalPlayer
 
 local GunMods = {

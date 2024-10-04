@@ -1,4 +1,3 @@
---// Made by @kylosilly
 local player = game.Players.LocalPlayer
 
 local GunMods = {
@@ -8,9 +7,9 @@ local GunMods = {
     RecoilMin = 0,
     RecoilMax = 0,
     ShotCooldown = 0,
-    BulletSpeed = 9999999,
-    ReloadTime = 0,
-    ShotEffect = "Rocket"
+    BulletSpeed = 9999999, -- dont go high or it might not render
+    ReloadTime = 0, -- idk this shit just randomly dosent come in some guns lol
+    ShotEffect = "Rocket" -- client sided
 }
 
 local function modifyToolProperties(character)

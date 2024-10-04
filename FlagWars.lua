@@ -14,6 +14,8 @@ local function modifyToolProperties(character)
                 for _, v in ipairs(config:GetChildren()) do
                     if v.Name == "MaxSpread" or v.Name == "MinSpread" or v.Name == "RecoilMin" or v.Name == "RecoilMax" or v.Name == "ShotCooldown" then
                         v.Value = 0
+                    elseif v.Name == "BulletSpeed" then
+                        v.Value = 9999999
                     end
                 end
             end

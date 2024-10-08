@@ -1,4 +1,4 @@
---// This is mega sigma!!! (If you wanna add anything to it go to game:GetService("ReplicatedStorage").Weapons and copy the value name in it from any gun :3
+--// This is mega sigma!!! (If you wanna add anything to it go to game:GetService("ReplicatedStorage").Weapons and copy the value name in it from any gun :3 made by @kylosilly
 local WeaponMods = {
     AccuracyDivisor = 0,
     AccuracyOffset = 0,

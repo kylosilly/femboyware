@@ -35,7 +35,6 @@ local function applyChanges(obj, changes)
             local child = obj[name]
             if child:IsA("IntValue") or child:IsA("NumberValue") or child:IsA("BoolValue") then
                 child.Value = value
-                print(name .. " changed to " .. tostring(value))
             end
         end
     end

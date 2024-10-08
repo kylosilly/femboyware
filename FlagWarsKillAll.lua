@@ -1,62 +1,59 @@
---// love from @kylosilly, @4cen2 and @netpa for helping <3
-local players = game:GetService("Players")
-local localPlayer = players.LocalPlayer
-local replicatedStorage = game:GetService("ReplicatedStorage")
+-- Rewroten by nepta sigma rape all and femboy kylosilly
 
-local function GetTool()
-    return localPlayer.Character and localPlayer.Character:FindFirstChildOfClass("Tool")
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local RemoteEvent = ReplicatedStorage:FindFirstChild("WeaponsSystem").Network.WeaponHit
+local LocalPlayer = Players.LocalPlayer
+local Neutral = BrickColor.new("Institutional white")
+
+function GetTool()
+    return LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Tool")
 end
 
-local function Fire(targetPlayer)
-    local equippedTool = GetTool()
-    if not equippedTool then return end
+local Function = function(Player)
+    if Player ~= nil then
+        local Character = Player.Character
+        local LocalCharacter = LocalPlayer.Character
+        
+        if Character ~= nil and LocalCharacter ~= nil then
+            local HitPart = Character:FindFirstChild("HumanoidRootPart")
+            local LocalHumanoidRootPart = LocalCharacter:FindFirstChild("HumanoidRootPart")
+            local Humanoid = Character:FindFirstChildOfClass("Humanoid")
+            local Tool = GetTool()
+            if not Tool then return end
+            
+            if HitPart ~= nil and Humanoid ~= nil and Humanoid.Health > 0 and Tool ~= nil then
+                local Magnitude = (HitPart.Position - LocalHumanoidRootPart.Position).Magnitude
+                local Unit = (HitPart.Position - LocalHumanoidRootPart.Position).unit
 
-    if targetPlayer and targetPlayer.Character then
-        local targetHRP = targetPlayer.Character:FindFirstChild("HumanoidRootPart")
-        local targetHumanoid = targetPlayer.Character:FindFirstChild("Humanoid")
-
-        if targetHRP and targetHumanoid then
-            local distance = (targetHRP.Position - localPlayer.Character.HumanoidRootPart.Position).Magnitude
-            local args = {
-                [1] = equippedTool,
-                [2] = {
-                    ["p"] = targetHRP.Position,
-                    ["pid"] = 1,
-                    ["part"] = targetHRP,
-                    ["d"] = distance,
-                    ["maxDist"] = distance,
-                    ["h"] = targetHumanoid,
-                    ["m"] = Enum.Material.Neon,
-                    ["sid"] = math.random(1, 1000),
-                    ["t"] = 0.0002056790194814283,
-                    ["n"] = (targetHRP.Position - localPlayer.Character.HumanoidRootPart.Position).unit
-                }
-            }
-
-            replicatedStorage.WeaponsSystem.Network.WeaponHit:FireServer(unpack(args))
+                repeat task.wait() RemoteEvent:FireServer(Tool, {["p"] = HitPart.Position, ["pid"] = 1, ["part"] = HitPart, ["d"] = Magnitude, ["maxDist"] = Magnitude, ["h"] = Humanoid, ["m"] = Enum.Material.Neon, ["sid"] = math.random(1, 1000), ["t"] = 0.0002056790194814283, ["n"] = Unit}) until Humanoid.Health == 0
+            end
         end
     end
 end
 
-local function KillAllPlayers()
-    for _, player in pairs(players:GetPlayers()) do
-        if player ~= localPlayer and player.Team ~= localPlayer.Team then
-            Fire(player)
+for i, v in pairs(Players:GetPlayers()) do
+    if v.UserId ~= LocalPlayer.UserId and v.Team ~= LocalPlayer.Team and v.TeamColor ~= Neutral then
+        if v.Character then
+            Function(v)
         end
+        v.CharacterAdded:Connect(function()
+            task.wait(0.025)
+            Function(v)              
+        end)
+        LocalPlayer.Character.ChildAdded:Connect(function(child)
+            if child:IsA("Tool") then
+                Function(v) 
+            end
+        end)
     end
 end
 
-local function StartKillAll()
-    while true do
-        KillAllPlayers()
-        task.wait(0.1)
+Players.PlayerAdded:Connect(function(plr)
+    if plr.UserId ~= LocalPlayer.UserId and plr.Team ~= LocalPlayer.Team and plr.TeamColor ~= Neutral then
+        plr.CharacterAdded:Connect(function()
+            task.wait(0.025)
+            Function(plr)                           
+        end)
     end
-end
-
-localPlayer.CharacterAdded:Connect(function()
-    task.defer(StartKillAll)
 end)
-
-if localPlayer.Character then
-    task.defer(StartKillAll)
-end

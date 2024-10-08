@@ -1,4 +1,4 @@
--- Rewroten by nepta sigma rape all and femboy kylosilly
+-- Rewroten by netpa sigma rape all and femboy kylosilly
 
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")

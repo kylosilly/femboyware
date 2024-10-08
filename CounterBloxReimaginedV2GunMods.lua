@@ -2,6 +2,7 @@
 local WeaponMods = {
     AccuracyDivisor = 0,
     AccuracyOffset = 0,
+    FireRate = 0.090,
     Ammo = 9999999,
     ArmorPenetration = 100,
     Auto = true,
@@ -19,6 +20,7 @@ local WeaponMods = {
         Jump = 0,
         Ladder = 0,
         Land = 0,
+        Move = 0,
         MaxInaccuracy = 0,
         RecoveryTime = 0
     },

@@ -1,13 +1,12 @@
 --// Made by @kylosilly Reworked it to work for counter blox game:GetService("ReplicatedStorage").Weapons if you wanna change anything because thats were all values are stored :3
 local WeaponMods = {
-    FireRate = 0.05,
+    FireRate = 0.1,
     Range = 9999999,
-    Scoped = 1,
     Ammo = 9999999,
     ArmorPenetration = 100,
     Auto = true,
     EquipTime = 0,
-    Penetration = 10000,
+    Penetration = 1000,
     ReloadTime = 0,
     Cooldown = 0,
     Burst = 0,
@@ -21,7 +20,6 @@ local WeaponMods = {
         RecoveryTime = 0
     },
     StoredAmmo = 9999999,
-    Tagging = 0,
 }
 
 local weapons = game:GetService("ReplicatedStorage").Weapons

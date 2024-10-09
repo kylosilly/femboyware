@@ -2,12 +2,12 @@
 local WeaponMods = {
     FireRate = 0.1,
     Range = 9999999,
-    Ammo = 9999999,
+    Ammo = 999,
     ArmorPenetration = 100,
     Auto = true,
     EquipTime = 0,
     Penetration = 1000,
-    ReloadTime = 0,
+    ReloadTime = 0.1,
     Cooldown = 0,
     Burst = 0,
     Spread = {

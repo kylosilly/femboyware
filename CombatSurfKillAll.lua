@@ -41,12 +41,12 @@ while true do
             [3] = {nearestPlayerLeg},
             [4] = {workspace:WaitForChild(nearestPlayerInstance.Name)},
             [5] = 105,
-            [6] = false,
+            [6] = true,
             [7] = {
                 ["ImageSize"] = UDim2.new(0, 80, 0, 80),
                 ["Image"] = "rbxassetid://2855991319"
             },
-            [8] = false,
+            [8] = true,
             [9] = true,
             [10] = "AWP",
             [11] = 20.190128326416016,

@@ -1,3 +1,4 @@
+-- Rewroten by @kylosilly orgin post: https://scriptblox.com/script/DEAGLE!-Combat-Surf-OPEN-SOURCE-kill-all-19718
 local player = game.Players.LocalPlayer
 local playerCharacter = player.Character or player.CharacterAdded:Wait()
 

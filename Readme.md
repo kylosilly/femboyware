@@ -1,1 +1,2 @@
-All my scripts are open source here.
+My cool sigma scripts 🤑
+People helping: @kylosilly, @netpa 🙏

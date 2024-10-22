@@ -1,4 +1,3 @@
--- Made by kylosilly
 local player = game.Players.LocalPlayer
 local playerCharacter = player.Character or player.CharacterAdded:Wait()
 
@@ -31,34 +30,32 @@ local function getNearestPlayerPosition()
 end
 
 while true do
-    for _ = 1, 3 do
-        local myPosition = playerCharacter.HumanoidRootPart.Position
-        local nearestPlayerPos, nearestPlayerLeg, nearestPlayerInstance = getNearestPlayerPosition()
+    local myPosition = playerCharacter.HumanoidRootPart.Position
+    local nearestPlayerPos, nearestPlayerLeg, nearestPlayerInstance = getNearestPlayerPosition()
 
-        if nearestPlayerPos and nearestPlayerLeg and nearestPlayerInstance then
-            local args = {
-                [1] = myPosition,
-                [2] = {nearestPlayerPos},
-                [3] = {nearestPlayerLeg},
-                [4] = {workspace:WaitForChild(nearestPlayerInstance.Name)},
-                [5] = 105,
-                [6] = false,
-                [7] = {
-                    ["ImageSize"] = UDim2.new(0, 80, 0, 80),
-                    ["Image"] = "rbxassetid://2855991319"
-                },
-                [8] = false,
-                [9] = true,
-                [10] = "AWP",
-                [11] = 20.190128326416016,
-                [12] = 0
-            }
+    if nearestPlayerPos and nearestPlayerLeg and nearestPlayerInstance then
+        local args = {
+            [1] = myPosition,
+            [2] = {nearestPlayerPos},
+            [3] = {nearestPlayerLeg},
+            [4] = {workspace:WaitForChild(nearestPlayerInstance.Name)},
+            [5] = 105,
+            [6] = false,
+            [7] = {
+                ["ImageSize"] = UDim2.new(0, 80, 0, 80),
+                ["Image"] = "rbxassetid://2855991319"
+            },
+            [8] = false,
+            [9] = true,
+            [10] = "AWP",
+            [11] = 20.190128326416016,
+            [12] = 0
+        }
 
-            game:GetService("Players").LocalPlayer.Character.GunLocalNew.Shoot:FireServer(unpack(args))
-        end
-
-        task.wait(0.1)
+        game:GetService("Players").LocalPlayer.Character.GunLocalNew.Shoot:FireServer(unpack(args))
     end
 
-    task.wait(1)
+    task.wait(0.5)
 end
+
+task.wait(1.5)

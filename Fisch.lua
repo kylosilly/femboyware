@@ -1,10 +1,10 @@
--- Made by @kylosilly and @netpa thanks for making the auto shake <3
+-- Gui
 
 local repo = 'https://raw.githubusercontent.com/violin-suzutsuki/LinoriaLib/main/'
 
-local Library = loadstring(game:HttpGet(repo .. 'Library.lua'))()
-local ThemeManager = loadstring(game:HttpGet(repo .. 'addons/ThemeManager.lua'))()
-local SaveManager = loadstring(game:HttpGet(repo .. 'addons/SaveManager.lua'))()
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/KINGHUB01/Gui/main/Gui%20Lib%20%5BLibrary%5D"))()
+local ThemeManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/KINGHUB01/Gui/main/Gui%20Lib%20%5BThemeManager%5D"))()
+local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/KINGHUB01/Gui/main/Gui%20Lib%20%5BSaveManager%5D"))()
 
 local Window = Library:CreateWindow({
     Title = 'Fisch',
@@ -41,11 +41,6 @@ local Tabs = {
 }
 
 local MenuGroup = Tabs['UI Settings']:AddLeftGroupbox('Menu')
-
--- Group boxes
-
-local LeftGroupBox = Tabs.AutoFarm:AddLeftGroupbox('AutoFarm')
-local RightGroupBox = Tabs.AutoFarm:AddRightGroupbox('Misc')
 
 -- Tables
 
@@ -141,6 +136,10 @@ PlayerGUI.ChildAdded:Connect(function(GUI)
     end
 end)
 
+-- Farm
+
+local LeftGroupBox = Tabs.AutoFarm:AddLeftGroupbox('AutoFarm')
+
 LeftGroupBox:AddToggle('MyToggle', {
     Text = 'Auto Shake',
     Default = false,
@@ -183,6 +182,10 @@ local SellButton = LeftGroupBox:AddButton({
     DoubleClick = false,
     Tooltip = 'Join our discord!'
 })
+
+-- Teleports
+
+local RightGroupBox = Tabs.AutoFarm:AddRightGroupbox('Teleports')
 
 RightGroupBox:AddDropdown('MyPlayerDropdown', {
     SpecialType = 'Tp',

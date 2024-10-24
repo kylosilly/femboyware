@@ -1,10 +1,11 @@
+-- Made by kylosilly, rewritten by netpa :3
 -- Gui
 
-local repo = 'https://raw.githubusercontent.com/violin-suzutsuki/LinoriaLib/main/'
+local repo = 'https://raw.githubusercontent.com/KINGHUB01/Gui/main/'
 
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/KINGHUB01/Gui/main/Gui%20Lib%20%5BLibrary%5D"))()
-local ThemeManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/KINGHUB01/Gui/main/Gui%20Lib%20%5BThemeManager%5D"))()
-local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/KINGHUB01/Gui/main/Gui%20Lib%20%5BSaveManager%5D"))()
+local Library = loadstring(game:HttpGet(repo ..'Gui%20Lib%20%5BLibrary%5D'))()
+local ThemeManager = loadstring(game:HttpGet(repo ..'Gui%20Lib%20%5BThemeManager%5D'))()
+local SaveManager = loadstring(game:HttpGet(repo ..'Gui%20Lib%20%5BSaveManager%5D'))()
 
 local Window = Library:CreateWindow({
     Title = 'Fisch',
@@ -39,8 +40,6 @@ local Tabs = {
     AutoFarm = Window:AddTab('AutoFarm'),
     ['UI Settings'] = Window:AddTab('UI Settings'),
 }
-
-local MenuGroup = Tabs['UI Settings']:AddLeftGroupbox('Menu')
 
 -- Tables
 
@@ -103,11 +102,18 @@ local itemSpots = {
     Training_Rod = CFrame.new(457.693848, 148.357529, 230.414307, 1, -0, 0, 0, 0.975410998, 0.220393807, -0, -0.220393807, 0.975410998)
 }
 
--- Locals
+-- Services
 
 local VirtualInputManager = game:GetService("VirtualInputManager")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local RunService = game:GetService("RunService")
 local Players = game:GetService("Players")
+
+-- Locals
+
 local LocalPlayer = Players.LocalPlayer
+local LocalCharacter = LocalPlayer.Character
+local HumanoidRootPart = LocalCharacter:FindFirstChild("HumanoidRootPart")
 
 local PlayerGUI = LocalPlayer:FindFirstChildOfClass("PlayerGui")
 
@@ -115,6 +121,8 @@ local PlayerGUI = LocalPlayer:FindFirstChildOfClass("PlayerGui")
 
 local autoShake = false
 local autoReel = false
+local Noclip = false
+local AntiDrown = false
 
 -- Rest
 
@@ -124,7 +132,7 @@ PlayerGUI.ChildAdded:Connect(function(GUI)
             GUI.safezone.ChildAdded:Connect(function(child)
                 if child:IsA("ImageButton") and child.Name == "button" then
                     task.wait(0.1)
-                    if autoShake then
+                    if autoShake == true then
                         local pos = child.AbsolutePosition
                         local size = child.AbsoluteSize
                         VirtualInputManager:SendMouseButtonEvent(pos.X + size.X / 2, pos.Y + size.Y / 2, 0, true, LocalPlayer, 0)
@@ -134,13 +142,31 @@ PlayerGUI.ChildAdded:Connect(function(GUI)
             end)
         end
     end
+    if GUI:IsA("ScreenGui") and GUI.Name == "reel" then
+        if autoReel == true then
+            task.wait(2)
+            ReplicatedStorage:WaitForChild("events"):WaitForChild("reelfinished"):FireServer(100, false)
+        end
+    end
+end)
+
+NoclipConnection = RunService.Stepped:Connect(function()
+    if Noclip == true then
+        if LocalCharacter ~= nil then
+            for i, v in pairs(LocalCharacter:GetDescendants()) do
+                if v:IsA("BasePart") and v.CanCollide == true then
+                    v.CanCollide = false
+                end
+            end
+        end
+    end
 end)
 
 -- Farm
 
-local LeftGroupBox = Tabs.AutoFarm:AddLeftGroupbox('AutoFarm')
+local AutoFarmGroup = Tabs.AutoFarm:AddLeftGroupbox('AutoFarm')
 
-LeftGroupBox:AddToggle('MyToggle', {
+AutoFarmGroup:AddToggle('AutoShake', {
     Text = 'Auto Shake',
     Default = false,
     Tooltip = 'Automatically clicks the shake button for you.',
@@ -149,23 +175,16 @@ LeftGroupBox:AddToggle('MyToggle', {
     end
 })
 
-LeftGroupBox:AddToggle('MyToggle', {
+AutoFarmGroup:AddToggle('AutoReel', {
     Text = 'Auto Reel',
     Default = false,
     Tooltip = 'Automatically reels in the fishing rod.',
     Callback = function(Value)
         autoReel = Value
-        if Value then
-            while autoReel do
-                local args = { [1] = 100, [2] = false }
-                game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("reelfinished"):FireServer(unpack(args))
-                task.wait(0.5)
-            end
-        end
     end
 })
 
-local SellButton = LeftGroupBox:AddButton({
+local SellButton = AutoFarmGroup:AddButton({
     Text = 'Sell fish (Need to hold fish)',
     Func = function()
         workspace:WaitForChild("world"):WaitForChild("npcs"):WaitForChild("Marc Merchant"):WaitForChild("merchant"):WaitForChild("sell"):InvokeServer()
@@ -174,7 +193,7 @@ local SellButton = LeftGroupBox:AddButton({
     Tooltip = 'Sells the fish (YOU HAVE TO HOLD AN FISH)'
 })
 
-local SellButton = LeftGroupBox:AddButton({
+local DiscordInvButton = AutoFarmGroup:AddButton({
     Text = 'Copy Discord link',
     Func = function()
         setclipboard('https://discord.gg/VudXCDCaBN')
@@ -185,64 +204,112 @@ local SellButton = LeftGroupBox:AddButton({
 
 -- Teleports
 
-local RightGroupBox = Tabs.AutoFarm:AddRightGroupbox('Teleports')
+local TeleportsGroup = Tabs.AutoFarm:AddRightGroupbox('Teleports')
 
-RightGroupBox:AddDropdown('MyPlayerDropdown', {
-    SpecialType = 'Tp',
+TeleportsGroup:AddDropdown('PlaceTeleport', {
     Text = 'Place teleport',
     Tooltip = 'Teleport to a place',
     Values = {"altar", "arch", "birch", "enchant", "executive", "keepers", "mod_house", "moosewood", "mushgrove", "roslit", "snow", "snowcap", "spike", "statue", "sunstone", "swamp", "terrapin", "vertigo", "volcano", "wilson", "wilsons_rod"},
     Default = '',
   
     Callback = function(Value)
-      local player = game.Players.LocalPlayer
-      if teleportSpots[Value] then
-        player.Character.HumanoidRootPart.CFrame = teleportSpots[Value]
-      else
-        warn("Invalid teleport spot selected.")
-      end
+        if teleportSpots ~= nil and HumanoidRootPart ~= nil then
+            HumanoidRootPart.CFrame = teleportSpots[Value]
+        end
     end
 })
 
-RightGroupBox:AddDropdown('MyPlayerDropdown', {
-    SpecialType = 'Tp',
+TeleportsGroup:AddDropdown('NPCTeleport', {
     Text = 'Teleport to Npc',
     Tooltip = 'Teleport to a rod',
     Values = {"Witch", "Merchant", "Synph", "Pierre", "Phineas", "Shipwright", "Angler", "Mod_Keeper", "Marc", "Lucas", "Roslit_Keeper", "Inn_Keeper", "FishingNpc_1", "FishingNpc_2", "FishingNpc_3", "Ashe", "Alfredrickus", "Daisy", "Appraiser"},
     Default = '',
   
     Callback = function(Value)
-      local player = game.Players.LocalPlayer
-      if racistPeople[Value] then
-        player.Character.HumanoidRootPart.CFrame = racistPeople[Value]
-      else
-        warn("Invalid teleport spot selected.")
-      end
+        if racistPeople ~= nil and HumanoidRootPart ~= nil then
+            HumanoidRootPart.CFrame = racistPeople[Value]
+        end
     end
 })
 
-RightGroupBox:AddDropdown('MyPlayerDropdown', {
-    SpecialType = 'Tp',
+TeleportsGroup:AddDropdown('ItemTeleport', {
     Text = 'Teleport to item',
     Tooltip = 'Teleport to a rod',
     Values = {"Bait_Crate", "Carbon_Rod", "Crab_Cage", "Fast_Rod", "Flimsy_Rod", "GPS", "Long_Rod", "Lucky_Rod", "Plastic_Rod", "Training_Rod"},
     Default = '',
   
     Callback = function(Value)
-      local player = game.Players.LocalPlayer
-      if itemSpots[Value] then
-        player.Character.HumanoidRootPart.CFrame = itemSpots[Value]
-      else
-        warn("Invalid teleport spot selected.")
-      end
+        if itemSpots ~= nil and HumanoidRootPart ~= nil then
+            HumanoidRootPart.CFrame = itemSpots[Value]
+        end
+    end
+})
+
+-- LocalPlayer
+
+local LocalPlayerGroup = Tabs.AutoFarm:AddRightGroupbox('LocalPlayer')
+
+LocalPlayerGroup:AddToggle('Noclip', {
+    Text = 'Noclip',
+    Default = false,
+    Tooltip = 'Allows you to go through walls',
+    Callback = function(Value)
+        Noclip = Value
+    end
+})
+
+LocalPlayerGroup:AddToggle('AntiDrown', {
+    Text = 'Disable Oxygen',
+    Default = false,
+    Tooltip = 'Allows you to stay in water infinitely',
+    Callback = function(Value)
+        AntiDrown = Value
+        if Value == true then
+            if LocalCharacter ~= nil and LocalCharacter:FindFirstChild("client"):WaitForChild("oxygen") ~= nil and LocalCharacter:FindFirstChild("client"):WaitForChild("oxygen").Enabled == true then	
+                LocalCharacter.client.oxygen.Enabled = false	
+            end	
+            CharAddedAntiDrownCon = LocalPlayer.CharacterAdded:Connect(function()	
+                if LocalCharacter ~= nil and LocalCharacter:FindFirstChild("client"):WaitForChild("oxygen") ~= nil and LocalCharacter:FindFirstChild("client"):WaitForChild("oxygen").Enabled == true then	
+                    LocalCharacter.client.oxygen.Enabled = false	
+                end	
+            end)
+        else	
+            if LocalCharacter ~= nil and LocalCharacter:FindFirstChild("client"):WaitForChild("oxygen") ~= nil and LocalCharacter:FindFirstChild("client"):WaitForChild("oxygen").Enabled == false then	
+                LocalCharacter.client.oxygen.Enabled = true	
+            end	
+        end
     end
 })
 
 -- Ui settings
 
-MenuGroup:AddButton('Unload', function() Library:Unload() end)
+local SettingsGroup = Tabs['UI Settings']:AddLeftGroupbox('Settings')
 
-MenuGroup:AddLabel('Menu bind'):AddKeyPicker('MenuKeybind', { Default = 'End', NoUI = true, Text = 'Menu keybind' })
+SettingsGroup:AddButton('Unload', function() Library:Unload() end)
+
+Library:OnUnload(function()
+	Library.Unloaded = true
+    if autoReel == true then
+        autoReel = false
+    end
+    if autoShake == true then
+        autoShake = false
+    end
+    if AntiDrown == true then
+        if LocalCharacter ~= nil and LocalCharacter:FindFirstChild("client"):WaitForChild("oxygen") ~= nil and LocalCharacter:FindFirstChild("client"):WaitForChild("oxygen").Enabled == false then
+            LocalCharacter.client.oxygen.Enabled = true
+            CharAddedAntiDrownCon:Disconnect()
+            AntiDrown = false
+        end
+    end
+    if Noclip == true then
+        Noclip = false
+    end
+    WatermarkConnection:Disconnect()
+    NoclipConnection:Disconnect()
+end)
+
+SettingsGroup:AddLabel('Menu bind'):AddKeyPicker('MenuKeybind', { Default = 'End', NoUI = true, Text = 'Menu keybind' })
 
 Library.ToggleKeybind = Options.MenuKeybind
 
@@ -254,9 +321,9 @@ SaveManager:IgnoreThemeSettings()
 
 SaveManager:SetIgnoreIndexes({ 'MenuKeybind' })
 
-ThemeManager:SetFolder('MyScriptHub')
+ThemeManager:SetFolder('RinnsHub')
 
-SaveManager:SetFolder('MyScriptHub/specific-game')
+SaveManager:SetFolder('RinnsHub/Fisch')
 
 SaveManager:BuildConfigSection(Tabs['UI Settings'])
 

@@ -1,5 +1,4 @@
 -- Made by kylosilly, rewritten by netpa :3
--- Gui
 
 local repo = 'https://raw.githubusercontent.com/KINGHUB01/Gui/main/'
 
@@ -131,12 +130,14 @@ PlayerGUI.ChildAdded:Connect(function(GUI)
         if GUI:FindFirstChild("safezone") ~= nil then
             GUI.safezone.ChildAdded:Connect(function(child)
                 if child:IsA("ImageButton") and child.Name == "button" then
-                    task.wait(0.1)
                     if autoShake == true then
-                        local pos = child.AbsolutePosition
-                        local size = child.AbsoluteSize
-                        VirtualInputManager:SendMouseButtonEvent(pos.X + size.X / 2, pos.Y + size.Y / 2, 0, true, LocalPlayer, 0)
-                        VirtualInputManager:SendMouseButtonEvent(pos.X + size.X / 2, pos.Y + size.Y / 2, 0, false, LocalPlayer, 0)
+                        task.wait(0.05)
+                        if child.Visible == true then
+                            local pos = child.AbsolutePosition
+                            local size = child.AbsoluteSize
+                            VirtualInputManager:SendMouseButtonEvent(pos.X + size.X / 2, pos.Y + size.Y / 2, 0, true, LocalPlayer, 0)
+                            VirtualInputManager:SendMouseButtonEvent(pos.X + size.X / 2, pos.Y + size.Y / 2, 0, false, LocalPlayer, 0)
+                        end
                     end
                 end
             end)
@@ -144,8 +145,9 @@ PlayerGUI.ChildAdded:Connect(function(GUI)
     end
     if GUI:IsA("ScreenGui") and GUI.Name == "reel" then
         if autoReel == true then
-            task.wait(2)
-            ReplicatedStorage:WaitForChild("events"):WaitForChild("reelfinished"):FireServer(100, false)
+            if ReplicatedStorage:WaitForChild("events"):WaitForChild("reelfinished") ~= nil then
+                repeat task.wait() ReplicatedStorage.events.reelfinished:FireServer(100, false) until GUI == nil
+            end
         end
     end
 end)
@@ -269,7 +271,7 @@ LocalPlayerGroup:AddToggle('AntiDrown', {
                 LocalCharacter.client.oxygen.Enabled = false	
             end	
             CharAddedAntiDrownCon = LocalPlayer.CharacterAdded:Connect(function()	
-                if LocalCharacter ~= nil and LocalCharacter:FindFirstChild("client"):WaitForChild("oxygen") ~= nil and LocalCharacter:FindFirstChild("client"):WaitForChild("oxygen").Enabled == true then	
+                if LocalCharacter ~= nil and LocalCharacter:FindFirstChild("client"):WaitForChild("oxygen") ~= nil and LocalCharacter:FindFirstChild("client"):WaitForChild("oxygen").Enabled == true and AntiDrown == true then	
                     LocalCharacter.client.oxygen.Enabled = false	
                 end	
             end)

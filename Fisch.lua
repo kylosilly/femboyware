@@ -49,7 +49,6 @@ local teleportSpots = {
     arch = CFrame.new(998.966796875, 126.6849365234375, -1237.1434326171875),
     birch = CFrame.new(1742.3203125, 138.25787353515625, -2502.23779296875),
     enchant = CFrame.new(1296.320068359375, -808.5519409179688, -298.93817138671875),
-    executive = CFrame.new(-29.836761474609375, -250.48486328125, 199.11614990234375),
     keepers = CFrame.new(1296.320068359375, -808.5519409179688, -298.93817138671875),
     mod_house = CFrame.new(-30.205902099609375, -249.40594482421875, 204.0529022216797),
     moosewood = CFrame.new(383.10113525390625, 131.2406005859375, 243.93385314941406),
@@ -297,7 +296,7 @@ local TeleportsGroup = Tabs.Teleports:AddLeftGroupbox('Teleports')
 TeleportsGroup:AddDropdown('PlaceTeleport', {
     Text = 'Place teleport',
     Tooltip = 'Teleport to a place',
-    Values = {"altar", "arch", "birch", "enchant", "executive", "keepers", "mod_house", "moosewood", "mushgrove", "roslit", "snow", "snowcap", "spike", "statue", "sunstone", "swamp", "terrapin", "vertigo", "volcano", "wilson", "wilsons_rod"},
+    Values = {"altar", "arch", "birch", "enchant", "keepers", "mod_house", "moosewood", "mushgrove", "roslit", "snow", "snowcap", "spike", "statue", "sunstone", "swamp", "terrapin", "vertigo", "volcano", "wilson", "wilsons_rod"},
     Default = '',
   
     Callback = function(Value)

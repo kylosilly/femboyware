@@ -37,7 +37,9 @@ end);
 
 local Tabs = {
     AutoFarm = Window:AddTab('AutoFarm'),
-    ['UI Settings'] = Window:AddTab('UI Settings'),
+    Teleports = Window:AddTab('Teleports'),
+    LocalPlayer = Window:AddTab('LocalPlayer'),
+    Settings = Window:AddTab('Settings')
 }
 
 -- Tables
@@ -106,6 +108,7 @@ local itemSpots = {
 local VirtualInputManager = game:GetService("VirtualInputManager")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
+local Workspace = game:GetService("Workspace")
 local Players = game:GetService("Players")
 
 -- Locals
@@ -113,13 +116,16 @@ local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 local LocalCharacter = LocalPlayer.Character
 local HumanoidRootPart = LocalCharacter:FindFirstChild("HumanoidRootPart")
+local ActiveFolder = Workspace:FindFirstChild("active")
 
 local PlayerGUI = LocalPlayer:FindFirstChildOfClass("PlayerGui")
 
 -- Varbiables
 
 local autoShake = false
+local autoShakeDelay = 0.1
 local autoReel = false
+local AutoCast = false
 local Noclip = false
 local AntiDrown = false
 
@@ -131,7 +137,7 @@ PlayerGUI.ChildAdded:Connect(function(GUI)
             GUI.safezone.ChildAdded:Connect(function(child)
                 if child:IsA("ImageButton") and child.Name == "button" then
                     if autoShake == true then
-                        task.wait(0.05)
+                        task.wait(autoShakeDelay)
                         if child.Visible == true then
                             local pos = child.AbsolutePosition
                             local size = child.AbsoluteSize
@@ -146,7 +152,33 @@ PlayerGUI.ChildAdded:Connect(function(GUI)
     if GUI:IsA("ScreenGui") and GUI.Name == "reel" then
         if autoReel == true then
             if ReplicatedStorage:WaitForChild("events"):WaitForChild("reelfinished") ~= nil then
-                repeat task.wait() ReplicatedStorage.events.reelfinished:FireServer(100, false) until GUI == nil
+                repeat task.wait(2) ReplicatedStorage.events.reelfinished:FireServer(100, false) until GUI == nil
+            end
+        end
+    end
+end)
+
+PlayerGUI.ChildRemoved:Connect(function(GUI)
+    if GUI.Name == "reel" then
+        if AutoCast == true then
+            task.wait(2)
+            if LocalCharacter:FindFirstChildOfClass("Tool") ~= nil then
+                local Tool = LocalCharacter:FindFirstChildOfClass("Tool")
+                Tool.events.cast:FireServer(100)
+            end
+        end
+    end
+end)
+
+LocalCharacter.ChildAdded:Connect(function(child)
+    if child:IsA("Tool") then
+        if AutoCast == true then
+            task.wait(2)
+            if LocalCharacter:FindFirstChildOfClass("Tool") ~= nil then
+                local Tool = LocalCharacter:FindFirstChildOfClass("Tool")
+                if Tool:FindFirstChild("events"):WaitForChild("cast") ~= nil then
+                    Tool.events.cast:FireServer(100)
+                end                
             end
         end
     end
@@ -167,26 +199,60 @@ end)
 -- Farm
 
 local AutoFarmGroup = Tabs.AutoFarm:AddLeftGroupbox('AutoFarm')
+local SellGroup = Tabs.AutoFarm:AddRightGroupbox('Sell')
+local EventGroup = Tabs.AutoFarm:AddRightGroupbox('Event')
 
 AutoFarmGroup:AddToggle('AutoShake', {
     Text = 'Auto Shake',
     Default = false,
-    Tooltip = 'Automatically clicks the shake button for you.',
+    Tooltip = 'Automatically clicks the shake button for you',
     Callback = function(Value)
         autoShake = Value
     end
 })
 
+AutoFarmGroup:AddInput('AutoShakeDelay', {
+    Default = 0.1,
+    Numeric = true,
+    Finished = false,
+
+    Text = 'AutoShake Delay',
+    Tooltip = 'Change the delay between every shake',
+
+    Placeholder = '0.1 is the most stable value',
+
+    Callback = function(Value)
+        autoShakeDelay = Value
+    end
+})
+
+
 AutoFarmGroup:AddToggle('AutoReel', {
     Text = 'Auto Reel',
     Default = false,
-    Tooltip = 'Automatically reels in the fishing rod.',
+    Tooltip = 'Automatically reels in the fishing rod',
     Callback = function(Value)
         autoReel = Value
     end
 })
 
-local SellButton = AutoFarmGroup:AddButton({
+AutoFarmGroup:AddToggle('AutoCast', {
+    Text = 'Auto Cast',
+    Default = false,
+    Tooltip = 'Automatically throws the rod',
+    Callback = function(Value)
+        AutoCast = Value
+        if Value == true and LocalCharacter:FindFirstChildOfClass("Tool") ~= nil then
+            local Tool = LocalCharacter:FindFirstChildOfClass("Tool")
+            if Tool:FindFirstChild("events"):WaitForChild("cast") ~= nil then
+                Tool.events.cast:FireServer(100)
+            end
+        end
+        HumanoidRootPart.Anchored = Value
+    end
+})
+
+local SellButton = SellGroup:AddButton({
     Text = 'Sell fish (Need to hold fish)',
     Func = function()
         workspace:WaitForChild("world"):WaitForChild("npcs"):WaitForChild("Marc Merchant"):WaitForChild("merchant"):WaitForChild("sell"):InvokeServer()
@@ -195,18 +261,38 @@ local SellButton = AutoFarmGroup:AddButton({
     Tooltip = 'Sells the fish (YOU HAVE TO HOLD AN FISH)'
 })
 
-local DiscordInvButton = AutoFarmGroup:AddButton({
-    Text = 'Copy Discord link',
-    Func = function()
-        setclipboard('https://discord.gg/VudXCDCaBN')
-    end,
-    DoubleClick = false,
-    Tooltip = 'Join our discord!'
+EventGroup:AddLabel('Soon!')
+
+--[[
+EventGroup:AddDropdown('Event', {
+    Text = 'Item Grabber',
+    Tooltip = 'Grabs the Event Item',
+    Values = {'Gaint Mushroom', 'Spiders Eye', 'Strange Root', 'Candy Corn', 'Dark Art Skull'},
+    Default = '',
+  
+    Callback = function(Value)
+        if HumanoidRootPart ~= nil and ActiveFolder ~= nil then
+            local oldpos = HumanoidRootPart.CFrame
+            local EventItem = ActiveFolder:FindFirstChild(Value)
+
+            if EventItem ~= nil and EventItem:FindFirstChild("PickupPrompt") ~= nil then
+                HumanoidRootPart.Anchored = true
+                HumanoidRootPart.CFrame = EventItem:FindFirstChildOfClass("MeshPart").CFrame
+                fireproximityprompt(EventItem.PickupPrompt)
+                task.wait(1)
+                HumanoidRootPart.Anchored = false
+                HumanoidRootPart.CFrame = oldpos
+            else
+                Library:Notify(string.format('There is no "%s" in workspace', Value))
+            end
+        end
+    end
 })
+]]
 
 -- Teleports
 
-local TeleportsGroup = Tabs.AutoFarm:AddRightGroupbox('Teleports')
+local TeleportsGroup = Tabs.Teleports:AddLeftGroupbox('Teleports')
 
 TeleportsGroup:AddDropdown('PlaceTeleport', {
     Text = 'Place teleport',
@@ -249,7 +335,7 @@ TeleportsGroup:AddDropdown('ItemTeleport', {
 
 -- LocalPlayer
 
-local LocalPlayerGroup = Tabs.AutoFarm:AddRightGroupbox('LocalPlayer')
+local LocalPlayerGroup = Tabs.LocalPlayer:AddLeftGroupbox('LocalPlayer')
 
 LocalPlayerGroup:AddToggle('Noclip', {
     Text = 'Noclip',
@@ -283,9 +369,19 @@ LocalPlayerGroup:AddToggle('AntiDrown', {
     end
 })
 
--- Ui settings
+-- Settings
 
-local SettingsGroup = Tabs['UI Settings']:AddLeftGroupbox('Settings')
+local SettingsGroup = Tabs.Settings:AddLeftGroupbox('Settings')
+local DiscordInvGroup = Tabs.Settings:AddRightGroupbox('Discord Invite')
+
+local DiscordInvButton = DiscordInvGroup:AddButton({
+    Text = 'Copy Discord link',
+    Func = function()
+        setclipboard('https://discord.gg/VudXCDCaBN')
+    end,
+    DoubleClick = false,
+    Tooltip = 'Join our discord!'
+})
 
 SettingsGroup:AddButton('Unload', function() Library:Unload() end)
 
@@ -307,6 +403,12 @@ Library:OnUnload(function()
     if Noclip == true then
         Noclip = false
     end
+    if AutoCast == true then
+        AutoCast = false
+    end
+    if HumanoidRootPart.Anchored == true then
+        HumanoidRootPart.Anchored = false
+    end
     WatermarkConnection:Disconnect()
     NoclipConnection:Disconnect()
 end)
@@ -327,8 +429,8 @@ ThemeManager:SetFolder('RinnsHub')
 
 SaveManager:SetFolder('RinnsHub/Fisch')
 
-SaveManager:BuildConfigSection(Tabs['UI Settings'])
+SaveManager:BuildConfigSection(Tabs.Settings)
 
-ThemeManager:ApplyToTab(Tabs['UI Settings'])
+ThemeManager:ApplyToTab(Tabs.Settings)
 
 SaveManager:LoadAutoloadConfig()

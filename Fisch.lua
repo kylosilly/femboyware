@@ -1,4 +1,4 @@
--- Made by kylosilly, rewritten by netpa :3
+-- Made by kylosilly and netpa :3
 
 local repo = 'https://raw.githubusercontent.com/KINGHUB01/Gui/main/'
 
@@ -36,7 +36,7 @@ end);
 -- Tabs
 
 local Tabs = {
-    AutoFarm = Window:AddTab('AutoFarm'),
+    Main = Window:AddTab('Main'),
     Teleports = Window:AddTab('Teleports'),
     LocalPlayer = Window:AddTab('LocalPlayer'),
     Settings = Window:AddTab('Settings')
@@ -44,51 +44,9 @@ local Tabs = {
 
 -- Tables
 
-local teleportSpots = {
-    altar = CFrame.new(1296.320068359375, -808.5519409179688, -298.93817138671875),
-    arch = CFrame.new(998.966796875, 126.6849365234375, -1237.1434326171875),
-    birch = CFrame.new(1742.3203125, 138.25787353515625, -2502.23779296875),
-    enchant = CFrame.new(1296.320068359375, -808.5519409179688, -298.93817138671875),
-    executive = CFrame.new(-29.836761474609375, -250.48486328125, 199.11614990234375),
-    keepers = CFrame.new(1296.320068359375, -808.5519409179688, -298.93817138671875),
-    mod_house = CFrame.new(-30.205902099609375, -249.40594482421875, 204.0529022216797),
-    moosewood = CFrame.new(383.10113525390625, 131.2406005859375, 243.93385314941406),
-    mushgrove = CFrame.new(2501.48583984375, 127.7583236694336, -720.699462890625),
-    roslit = CFrame.new(-1476.511474609375, 130.16842651367188, 671.685302734375),
-    snow = CFrame.new(2648.67578125, 139.06605529785156, 2521.29736328125),
-    snowcap = CFrame.new(2648.67578125, 139.06605529785156, 2521.29736328125),
-    spike = CFrame.new(-1254.800537109375, 133.88555908203125, 1554.2021484375),
-    statue = CFrame.new(72.8836669921875, 138.6964874267578, -1028.4193115234375),
-    sunstone = CFrame.new(-933.259705, 128.143951, -1119.52063, -0.342042685, 0, -0.939684391, 0, 1, 0, 0.939684391, 0, -0.342042685),
-    swamp = CFrame.new(2501.48583984375, 127.7583236694336, -720.699462890625),
-    terrapin = CFrame.new(-143.875244140625, 141.1676025390625, 1909.6070556640625),
-    vertigo = CFrame.new(-112.007278, -492.901093, 1040.32788, -1, 0, 0, 0, 1, 0, 0, 0, -1),
-    volcano = CFrame.new(-1888.52319, 163.847565, 329.238281, 1, 0, 0, 0, 1, 0, 0, 0, 1),
-    wilson = CFrame.new(2938.80591, 277.474762, 2567.13379, 0.4648332, 0, 0.885398269, 0, 1, 0, -0.885398269, 0, 0.4648332),
-    wilsons_rod = CFrame.new(2879.2085, 135.07663, 2723.64233, 0.970463336, -0.168695927, -0.172460333, 0.141582936, -0.180552125, 0.973321974, -0.195333466, -0.968990743, -0.151334763)
-}
+local teleportSpots = {}
 
-local racistPeople = {
-    Witch = CFrame.new(409.368713, 135.712708, 312.134338, -0.93826592, -0.0479123928, 0.342580646, -9.64477658e-06, 0.99036473, 0.138483301, -0.345914871, 0.129930869, -0.929225981),
-    Merchant = CFrame.new(416.690521, 130.302628, 342.765289, -0.249025017, -0.0326484665, 0.967946589, -0.0040341015, 0.999457955, 0.0326734781, -0.968488574, 0.00423171744, -0.249021754),
-    Synph = CFrame.new(566.36499, 151.671799, 353.993896, -0.753522575, 0.00614984334, -0.657393873, -0.00677706953, 0.999830484, 0.0171213746, 0.657387733, 0.0173565373, -0.753353059),
-    Pierre = CFrame.new(391.38855, 136.82576, 196.710144, -1, 0, 0, 0, 0.999927282, 0.012056686, 0, 0.012056686, -0.999927282),
-    Phineas = CFrame.new(469.901093, 152.136032, 277.97641, 0.886104584, -0.00747075537, -0.46342513, 0, 0.999870062, -0.0161186438, 0.46348536, 0.014282804, 0.885989428),
-    Shipwright = CFrame.new(357.972595, 135.112106, 258.154541, -0.0243720412, 0, -0.99970293, 0, 1, 0, 0.99970293, 0, -0.0243720412),
-    Angler = CFrame.new(480.102478, 151.963333, 302.226898, 1, 0, 0, 0, 1, 0, 0, 0, 1),
-    Mod_Keeper = CFrame.new(-39.0905838, -245.141144, 195.837891, -0.948549569, -0.0898146331, -0.303623199, -0.197293222, 0.91766715, 0.34490931, 0.247647122, 0.387066364, -0.888172567),
-    Marc = CFrame.new(466.060913, 152.480682, 224.723465, -0.995860994, -0.0430678315, -0.0800375119, -0.0437603444, 0.999018013, 0.00691775233, 0.0796609744, 0.0103915781, -0.996767819),
-    Lucas = CFrame.new(449.09433, 181.516205, 180.772995, 0.256410182, -0.0536140576, 0.965079963, 0.176032364, 0.984352529, 0.00791505724, -0.950403333, 0.167855799, 0.261835814),
-    Roslit_Keeper = CFrame.new(-1512.37891, 134.500031, 631.24353, 0.738236904, 0, -0.674541533, 0, 1, 0, 0.674541533, 0, 0.738236904),
-    Inn_Keeper = CFrame.new(487.458466, 152.300034, 231.498932, -0.564704418, 0, -0.825293183, 0, 1, 0, 0.825293183, 0, -0.564704418),
-    FishingNpc_1 = CFrame.new(-1429.04138, 134.371552, 686.034424, 0, 0.0168599077, -0.999857903, 0, 0.999857903, 0.0168599077, 1, 0, 0),
-    FishingNpc_2 = CFrame.new(-1778.55408, 149.791779, 648.097107, 0.183140755, 0.0223737024, -0.982832015, 0, 0.999741018, 0.0227586292, 0.983086705, -0.00416803267, 0.183093324),
-    FishingNpc_3 = CFrame.new(-1778.26807, 147.83165, 653.258606, -0.129575253, 0.501478612, 0.855411887, -2.44146213e-05, 0.862683058, -0.505744994, -0.991569638, -0.0655529201, -0.111770131),
-    Ashe = CFrame.new(-1709.94055, 149.862411, 729.399536, -0.92290163, 0.0273250472, -0.384064913, 0, 0.997478604, 0.0709675401, 0.385035753, 0.0654960647, -0.920574605),
-    Alfredrickus = CFrame.new(-1520.60632, 142.923264, 764.522034, 0.301733732, 0.390740901, -0.869642735, 0.0273988936, 0.908225596, 0.417582989, 0.952998459, -0.149826124, 0.26333645),
-    Daisy = CFrame.new(581.550049, 166.974594, 213.499969, -0.951949298, 0, -0.306255639, 0, 1, 0, 0.306255639, 0, -0.951949298),
-    Appraiser = CFrame.new(453.003967, 151.970993, 206.907928, 0.0983118787, -0.24595812, 0.964281857, 0.0232069641, 0.969278991, 0.244866714, -0.994885027, -0.00169523992, 0.100999579)
-}
+local racistPeople = { --[[ all racist people abandoned :pensive: ]] }
 
 local itemSpots = {
     Bait_Crate = CFrame.new(384.57513427734375, 135.3519287109375, 337.5340270996094),
@@ -103,10 +61,14 @@ local itemSpots = {
     Training_Rod = CFrame.new(457.693848, 148.357529, 230.414307, 1, -0, 0, 0, 0.975410998, 0.220393807, -0, -0.220393807, 0.975410998)
 }
 
+local fisktable = {}
+
 -- Services
 
 local VirtualInputManager = game:GetService("VirtualInputManager")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local HttpService = game:GetService("HttpService")
+local GuiService = game:GetService("GuiService")
 local RunService = game:GetService("RunService")
 local Workspace = game:GetService("Workspace")
 local Players = game:GetService("Players")
@@ -117,21 +79,38 @@ local LocalPlayer = Players.LocalPlayer
 local LocalCharacter = LocalPlayer.Character
 local HumanoidRootPart = LocalCharacter:FindFirstChild("HumanoidRootPart")
 local ActiveFolder = Workspace:FindFirstChild("active")
-
+local FishingZonesFolder = Workspace:FindFirstChild("zones"):WaitForChild("fishing")
+local TpSpotsFolder = Workspace:FindFirstChild("world"):WaitForChild("spawns"):WaitForChild("TpSpots")
+local NpcFolder = Workspace:FindFirstChild("world"):WaitForChild("npcs")
 local PlayerGUI = LocalPlayer:FindFirstChildOfClass("PlayerGui")
+local RenderStepped = RunService.RenderStepped
+local WaitForSomeone = RenderStepped.Wait
+local Debug = function()
+    print(debug.info(2, "l"))
+end
 
 -- Varbiables
 
 local autoShake = false
 local autoShakeDelay = 0.1
+local autoShakeMethod = "ClickEvent"
+local autoShakeClickOffsetX = 0
+local autoShakeClickOffsetY = 0
 local autoReel = false
-local AutoCast = false
+local autoReelDelay = 2
+local autoCast = false
+local autoCastMode = "Legit"
+local autoCastDelay = 2
+local ZoneCast = false
+local Zone = "Brine Pool"
 local Noclip = false
 local AntiDrown = false
+local CollarPlayer = false
+local Target
 
 -- Rest
 
-PlayerGUI.ChildAdded:Connect(function(GUI)
+autoreelandshakeConnection = PlayerGUI.ChildAdded:Connect(function(GUI)
     if GUI:IsA("ScreenGui") and GUI.Name == "shakeui" then
         if GUI:FindFirstChild("safezone") ~= nil then
             GUI.safezone.ChildAdded:Connect(function(child)
@@ -139,10 +118,18 @@ PlayerGUI.ChildAdded:Connect(function(GUI)
                     if autoShake == true then
                         task.wait(autoShakeDelay)
                         if child.Visible == true then
-                            local pos = child.AbsolutePosition
-                            local size = child.AbsoluteSize
-                            VirtualInputManager:SendMouseButtonEvent(pos.X + size.X / 2, pos.Y + size.Y / 2, 0, true, LocalPlayer, 0)
-                            VirtualInputManager:SendMouseButtonEvent(pos.X + size.X / 2, pos.Y + size.Y / 2, 0, false, LocalPlayer, 0)
+                            if autoShakeMethod == "ClickEvent" then
+                                local pos = child.AbsolutePosition
+                                local size = child.AbsoluteSize
+                                VirtualInputManager:SendMouseButtonEvent(pos.X + size.X / 2, pos.Y + size.Y / 2, 0, true, LocalPlayer, 0)
+                                VirtualInputManager:SendMouseButtonEvent(pos.X + size.X / 2, pos.Y + size.Y / 2, 0, false, LocalPlayer, 0)
+                            elseif autoShakeMethod == "firesignal" then
+                                firesignal(child.MouseButton1Click)
+                            elseif autoShakeMethod == "KeyCodeEvent" then
+                                GuiService.SelectedObject = child
+                                VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.Return, false, game)
+                                VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.Return, false, game)
+                            end
                         end
                     end
                 end
@@ -150,37 +137,108 @@ PlayerGUI.ChildAdded:Connect(function(GUI)
         end
     end
     if GUI:IsA("ScreenGui") and GUI.Name == "reel" then
-        if autoReel == true then
-            if ReplicatedStorage:WaitForChild("events"):WaitForChild("reelfinished") ~= nil then
-                repeat task.wait(2) ReplicatedStorage.events.reelfinished:FireServer(100, false) until GUI == nil
-            end
+        if autoReel and ReplicatedStorage:WaitForChild("events"):WaitForChild("reelfinished") ~= nil then
+            repeat task.wait(autoReelDelay) ReplicatedStorage.events.reelfinished:FireServer(100, false) until GUI == nil
         end
     end
 end)
 
-PlayerGUI.ChildRemoved:Connect(function(GUI)
-    if GUI.Name == "reel" then
-        if AutoCast == true then
-            task.wait(2)
-            if LocalCharacter:FindFirstChildOfClass("Tool") ~= nil then
-                local Tool = LocalCharacter:FindFirstChildOfClass("Tool")
-                Tool.events.cast:FireServer(100)
-            end
+autoCastConnection = LocalCharacter.ChildAdded:Connect(function(child)
+    if child:IsA("Tool") and child:FindFirstChild("events"):WaitForChild("cast") ~= nil and autoCast == true then
+        task.wait(autoCastDelay)
+        if autoCastMode == "Legit" then
+            VirtualInputManager:SendMouseButtonEvent(0, 0, 0, true, LocalPlayer, 0)
+            HumanoidRootPart.ChildAdded:Connect(function()
+                if HumanoidRootPart:FindFirstChild("power") ~= nil and HumanoidRootPart.power.powerbar.bar ~= nil then
+                    HumanoidRootPart.power.powerbar.bar.Changed:Connect(function(property)
+                        if property == "Size" then
+                            if HumanoidRootPart.power.powerbar.bar.Size == UDim2.new(1, 0, 1, 0) then
+                                VirtualInputManager:SendMouseButtonEvent(0, 0, 0, false, LocalPlayer, 0)
+                            end
+                        end
+                    end)
+                end
+            end)
+        elseif autoCastMode == "Rage" then
+            child.events.cast:FireServer(100)
         end
     end
 end)
 
-LocalCharacter.ChildAdded:Connect(function(child)
-    if child:IsA("Tool") then
-        if AutoCast == true then
-            task.wait(2)
-            if LocalCharacter:FindFirstChildOfClass("Tool") ~= nil then
-                local Tool = LocalCharacter:FindFirstChildOfClass("Tool")
-                if Tool:FindFirstChild("events"):WaitForChild("cast") ~= nil then
-                    Tool.events.cast:FireServer(100)
-                end                
-            end
+autoCastConnection2 = PlayerGUI.ChildRemoved:Connect(function(GUI)
+    local Tool = LocalCharacter:FindFirstChildOfClass("Tool")
+    if GUI.Name == "reel" and autoCast == true and Tool ~= nil and Tool:FindFirstChild("events"):WaitForChild("cast") ~= nil then
+        task.wait(autoCastDelay)
+        if autoCastMode == "Legit" then
+            VirtualInputManager:SendMouseButtonEvent(0, 0, 0, true, LocalPlayer, 0)
+            HumanoidRootPart.ChildAdded:Connect(function()
+                if HumanoidRootPart:FindFirstChild("power") ~= nil and HumanoidRootPart.power.powerbar.bar ~= nil then
+                    HumanoidRootPart.power.powerbar.bar.Changed:Connect(function(property)
+                        if property == "Size" then
+                            if HumanoidRootPart.power.powerbar.bar.Size == UDim2.new(1, 0, 1, 0) then
+                                VirtualInputManager:SendMouseButtonEvent(0, 0, 0, false, LocalPlayer, 0)
+                            end
+                        end
+                    end)
+                end
+            end)
+        elseif autoCastMode == "Rage" then
+            Tool.events.cast:FireServer(100)
         end
+    end
+end)
+
+ZoneConnection = LocalCharacter.ChildAdded:Connect(function(child)
+    if ZoneCast and child:IsA("Tool") and FishingZonesFolder:FindFirstChild(Zone) ~= nil and fisktable ~= nil then
+        child.ChildAdded:Connect(function(blehh)
+            if blehh.Name == "bobber" then
+                local RopeConstraint = blehh:FindFirstChildOfClass("RopeConstraint")
+                if ZoneCast and RopeConstraint ~= nil then
+                    RopeConstraint.Changed:Connect(function(property)
+                        if property == "Length" then
+                            RopeConstraint.Length = math.huge
+                        end
+                    end)
+                    RopeConstraint.Length = math.huge
+                end
+                task.wait(1)
+                while WaitForSomeone(RenderStepped) do
+                    if ZoneCast and blehh.Parent ~= nil then
+                        task.wait()
+                        blehh.CFrame = FishingZonesFolder[Zone].CFrame
+                    else
+                        break
+                    end
+                end
+            end
+        end)
+    end
+end)
+
+CollarConnection = LocalCharacter.ChildAdded:Connect(function(child)
+    if CollarPlayer and child:IsA("Tool") and Players:FindFirstChild(Target).Character:FindFirstChild("Head") ~= nil then
+        child.ChildAdded:Connect(function(blehh)
+            if blehh.Name == "bobber" then
+                local RopeConstraint = blehh:FindFirstChildOfClass("RopeConstraint")
+                if CollarPlayer and RopeConstraint ~= nil then
+                    RopeConstraint.Changed:Connect(function(property)
+                        if property == "Length" then
+                            RopeConstraint.Length = math.huge
+                        end
+                    end)
+                    RopeConstraint.Length = math.huge
+                end
+                task.wait(1)
+                while WaitForSomeone(RenderStepped) do
+                    if CollarPlayer and blehh.Parent ~= nil then
+                        task.wait()
+                        blehh.CFrame = Players:FindFirstChild(Target).Character:FindFirstChild("Head").CFrame + Vector3.new(0, -0.5, 0)
+                    else
+                        break
+                    end
+                end
+            end
+        end)
     end
 end)
 
@@ -196,14 +254,42 @@ NoclipConnection = RunService.Stepped:Connect(function()
     end
 end)
 
--- Farm
+for i, v in pairs(FishingZonesFolder:GetChildren()) do
+    if table.find(fisktable, v.Name) == nil then
+        table.insert(fisktable, v.Name)
+    end
+end
 
-local AutoFarmGroup = Tabs.AutoFarm:AddLeftGroupbox('AutoFarm')
-local SellGroup = Tabs.AutoFarm:AddRightGroupbox('Sell')
-local EventGroup = Tabs.AutoFarm:AddRightGroupbox('Event')
+FishingZonesFolder.ChildAdded:Connect(function(child)
+    if table.find(fisktable, child.Name) == nil then
+        table.insert(fisktable, child.Name)
+    end
+end)
 
-AutoFarmGroup:AddToggle('AutoShake', {
-    Text = 'Auto Shake',
+for i, v in pairs(TpSpotsFolder:GetChildren()) do
+    if table.find(teleportSpots, v.Name) == nil then
+        table.insert(teleportSpots, v.Name)
+    end
+end
+
+for i, v in pairs(NpcFolder:GetChildren()) do
+    if table.find(racistPeople, v.Name) == nil and v.Name ~= "mirror Area" then
+        table.insert(racistPeople, v.Name)
+    end
+end
+
+-- Main
+
+local AutoShakeGroup = Tabs.Main:AddLeftGroupbox('AutoShake')
+local AutoReelGroup = Tabs.Main:AddLeftGroupbox('AutoReel')
+local AutoCastGroup = Tabs.Main:AddLeftGroupbox('AutoCast')
+local FishUtilitiesGroup = Tabs.Main:AddRightGroupbox('Fish (🐟) Utilities')
+local EventGroup = Tabs.Main:AddRightGroupbox('Event')
+local ZoneCastGroup = Tabs.Main:AddRightGroupbox('ZoneCast')
+local CollarPlayerGroup = Tabs.Main:AddRightGroupbox('CollarPlayer')
+
+AutoShakeGroup:AddToggle('AutoShake', {
+    Text = 'Enabled',
     Default = false,
     Tooltip = 'Automatically clicks the shake button for you',
     Callback = function(Value)
@@ -211,24 +297,78 @@ AutoFarmGroup:AddToggle('AutoShake', {
     end
 })
 
-AutoFarmGroup:AddInput('AutoShakeDelay', {
-    Default = 0.1,
-    Numeric = true,
-    Finished = false,
+local AutoShakeSettings = AutoShakeGroup:AddDependencyBox()
 
+AutoShakeSettings:AddDropdown('AutoShakeMode', {
+    Text = 'Auto Shake Method',
+    Tooltip = 'Method to click on the shake button',
+    Values = {'ClickEvent', 'firesignal', 'KeyCodeEvent' },
+    Default = autoShakeMethod,
+  
+    Callback = function(Value)
+        autoShakeMethod = Value
+    end
+})
+
+local AutoShakeKeyCodeEventText = AutoShakeSettings:AddDependencyBox()
+
+AutoShakeKeyCodeEventText:AddLabel('Inspired from rblxscripts.net!')
+AutoShakeKeyCodeEventText:AddLabel('Huge shoutout to them.')
+
+AutoShakeKeyCodeEventText:SetupDependencies({
+    { Options.AutoShakeMode, "KeyCodeEvent" }
+})
+
+AutoShakeSettings:AddSlider('AutoShakeDelay', {
     Text = 'AutoShake Delay',
-    Tooltip = 'Change the delay between every shake',
-
-    Placeholder = '0.1 is the most stable value',
+    Default = 0.1,
+    Min = 0,
+    Max = 10,
+    Rounding = 1,
 
     Callback = function(Value)
         autoShakeDelay = Value
     end
 })
 
+AutoShakeSettings:SetupDependencies({
+    { Toggles.AutoShake, true }
+})
 
-AutoFarmGroup:AddToggle('AutoReel', {
-    Text = 'Auto Reel',
+--[[
+local AutoShakeXYOffset = AutoShakeGroup:AddDependencyBox()
+
+AutoShakeXYOffset:AddSlider('AutoShakeXOffset', {
+    Text = 'AutoShake X Offset',
+    Default = 0,
+    Min = -10,
+    Max = 10,
+    Rounding = 1,
+
+    Callback = function(Value)
+        autoShakeClickOffsetX = Value
+    end
+})
+
+AutoShakeXYOffset:AddSlider('AutoShakeXOffset', {
+    Text = 'AutoShake Y Offset',
+    Default = 0,
+    Min = -10,
+    Max = 10,
+    Rounding = 1,
+
+    Callback = function(Value)
+        autoShakeClickOffsetY = Value
+    end
+})
+
+AutoShakeXYOffset:SetupDependencies({
+    { Options.AutoShakeMode, "ClickEvent" }
+})
+]]
+
+AutoReelGroup:AddToggle('AutoReel', {
+    Text = 'Enabled',
     Default = false,
     Tooltip = 'Automatically reels in the fishing rod',
     Callback = function(Value)
@@ -236,29 +376,107 @@ AutoFarmGroup:AddToggle('AutoReel', {
     end
 })
 
-AutoFarmGroup:AddToggle('AutoCast', {
-    Text = 'Auto Cast',
-    Default = false,
-    Tooltip = 'Automatically throws the rod',
+local AutoReelSettings = AutoReelGroup:AddDependencyBox()
+
+AutoReelSettings:AddSlider('AutoReelDelay', {
+    Text = 'AutoReel Delay',
+    Default = 2,
+    Min = 0,
+    Max = 10,
+    Rounding = 1,
+
     Callback = function(Value)
-        AutoCast = Value
-        if Value == true and LocalCharacter:FindFirstChildOfClass("Tool") ~= nil then
-            local Tool = LocalCharacter:FindFirstChildOfClass("Tool")
-            if Tool:FindFirstChild("events"):WaitForChild("cast") ~= nil then
-                Tool.events.cast:FireServer(100)
-            end
-        end
-        HumanoidRootPart.Anchored = Value
+        autoReelDelay = Value
     end
 })
 
-local SellButton = SellGroup:AddButton({
-    Text = 'Sell fish (Need to hold fish)',
+AutoReelSettings:SetupDependencies({
+    { Toggles.AutoReel, true }
+})
+
+AutoCastGroup:AddToggle('AutoCast', {
+    Text = 'Enabled',
+    Default = false,
+    Tooltip = 'Automatically throws the rod',
+    Callback = function(Value)
+        autoCast = Value
+        local Tool = LocalCharacter:FindFirstChildOfClass("Tool")
+        if Tool ~= nil and Tool:FindFirstChild("events"):WaitForChild("cast") ~= nil and Value == true then
+            task.wait(autoCastDelay)
+            if autoCastMode == "Legit" then
+                VirtualInputManager:SendMouseButtonEvent(0, 0, 0, true, LocalPlayer, 0)
+                HumanoidRootPart.ChildAdded:Connect(function()
+                    if HumanoidRootPart:FindFirstChild("power") ~= nil and HumanoidRootPart.power.powerbar.bar ~= nil then
+                        HumanoidRootPart.power.powerbar.bar.Changed:Connect(function(property)
+                            if property == "Size" then
+                                if HumanoidRootPart.power.powerbar.bar.Size == UDim2.new(1, 0, 1, 0) then
+                                    VirtualInputManager:SendMouseButtonEvent(0, 0, 0, false, LocalPlayer, 0)
+                                end
+                            end
+                        end)
+                    end
+                end)
+            elseif autoCastMode == "Rage" then
+                Tool.events.cast:FireServer(100)
+            end
+        end
+    end
+})
+
+local AutoCastSettings = AutoCastGroup:AddDependencyBox()
+
+AutoCastSettings:AddSlider('AutoCastDelay', {
+    Text = 'AutoCast Delay',
+    Default = 2,
+    Min = 0,
+    Max = 10,
+    Rounding = 1,
+
+    Callback = function(Value)
+        autoCastDelay = Value
+    end
+})
+
+AutoCastSettings:AddDropdown('AutoCastMode', {
+    Text = 'Auto Cast Mode',
+    Tooltip = 'Change the mode of the AutoCast',
+    Values = {'Legit', 'Rage'},
+    Default = autoCastMode,
+  
+    Callback = function(Value)
+        autoCastMode = Value
+    end
+})
+
+AutoCastSettings:SetupDependencies({
+    { Toggles.AutoCast, true }
+})
+
+local SellButton = FishUtilitiesGroup:AddButton({
+    Text = 'Sell a fish',
     Func = function()
-        workspace:WaitForChild("world"):WaitForChild("npcs"):WaitForChild("Marc Merchant"):WaitForChild("merchant"):WaitForChild("sell"):InvokeServer()
+        Workspace:WaitForChild("world"):WaitForChild("npcs"):WaitForChild("Marc Merchant"):WaitForChild("merchant"):WaitForChild("sell"):InvokeServer()
     end,
     DoubleClick = false,
-    Tooltip = 'Sells the fish (YOU HAVE TO HOLD AN FISH)'
+    Tooltip = 'Sells the fish you are holding'
+})
+
+local SellAllButton = FishUtilitiesGroup:AddButton({
+    Text = 'Sell ALL fish',
+    Func = function()
+        Workspace:WaitForChild("world"):WaitForChild("npcs"):WaitForChild("Marc Merchant"):WaitForChild("merchant"):WaitForChild("sellall"):InvokeServer()
+    end,
+    DoubleClick = false,
+    Tooltip = 'Sells all your fish'
+})
+
+local SellAllButton = FishUtilitiesGroup:AddButton({
+    Text = 'Appraise fish 🐟 (450C$)',
+    Func = function()
+        Workspace:WaitForChild("world"):WaitForChild("npcs"):WaitForChild("Appraiser"):WaitForChild("appraiser"):WaitForChild("appraise"):InvokeServer()
+    end,
+    DoubleClick = false,
+    Tooltip = 'Appraises the fish you are holding'
 })
 
 EventGroup:AddDropdown('Event', {
@@ -294,6 +512,59 @@ EventGroup:AddDropdown('Event', {
     end
 })
 
+EventGroup:AddLabel("Might be buggy!")
+
+ZoneCastGroup:AddToggle('ZoneCast', {
+    Text = 'Enabled',
+    Default = false,
+    Tooltip = 'Throws the rod to another zone',
+    Callback = function(Value)
+        ZoneCast = Value
+    end
+})
+
+local ZoneCastDropdowns = ZoneCastGroup:AddDependencyBox()
+
+ZoneCastDropdowns:AddDropdown('ZoneCastValue', {
+    Text = 'Zone',
+    Tooltip = nil,
+    Values = fisktable,
+    Default = Zone,
+  
+    Callback = function(Value)
+        Zone = Value
+    end
+})
+
+ZoneCastDropdowns:SetupDependencies({
+    { Toggles.ZoneCast, true }
+})
+
+CollarPlayerGroup:AddToggle('CollarPlayer', {
+    Text = 'Enabled',
+    Default = false,
+    Tooltip = "Collar's the player making them look like your pet :3",
+    Callback = function(Value)
+        CollarPlayer = Value
+    end
+})
+
+local CollarPlayerDropdown = CollarPlayerGroup:AddDependencyBox()
+
+CollarPlayerDropdown:AddDropdown('CollarTarget', {
+    SpecialType = 'Player',
+    Text = 'Player',
+    Tooltip = 'Select the player you will collar',
+  
+    Callback = function(Value)
+        Target = Value
+    end
+})
+
+CollarPlayerDropdown:SetupDependencies({
+    { Toggles.CollarPlayer, true }
+})
+
 -- Teleports
 
 local TeleportsGroup = Tabs.Teleports:AddLeftGroupbox('Teleports')
@@ -301,12 +572,12 @@ local TeleportsGroup = Tabs.Teleports:AddLeftGroupbox('Teleports')
 TeleportsGroup:AddDropdown('PlaceTeleport', {
     Text = 'Place teleport',
     Tooltip = 'Teleport to a place',
-    Values = {"altar", "arch", "birch", "enchant", "keepers", "mod_house", "moosewood", "mushgrove", "roslit", "snow", "snowcap", "spike", "statue", "sunstone", "swamp", "terrapin", "vertigo", "volcano", "wilson", "wilsons_rod"},
+    Values = teleportSpots,
     Default = '',
   
     Callback = function(Value)
         if teleportSpots ~= nil and HumanoidRootPart ~= nil then
-            HumanoidRootPart.CFrame = teleportSpots[Value]
+            HumanoidRootPart.CFrame = TpSpotsFolder:FindFirstChild(Value).CFrame + Vector3.new(0, 5, 0)
         end
     end
 })
@@ -314,12 +585,12 @@ TeleportsGroup:AddDropdown('PlaceTeleport', {
 TeleportsGroup:AddDropdown('NPCTeleport', {
     Text = 'Teleport to Npc',
     Tooltip = 'Teleport to a rod',
-    Values = {"Witch", "Merchant", "Synph", "Pierre", "Phineas", "Shipwright", "Angler", "Mod_Keeper", "Marc", "Lucas", "Roslit_Keeper", "Inn_Keeper", "FishingNpc_1", "FishingNpc_2", "FishingNpc_3", "Ashe", "Alfredrickus", "Daisy", "Appraiser"},
+    Values = racistPeople,
     Default = '',
   
     Callback = function(Value)
         if racistPeople ~= nil and HumanoidRootPart ~= nil then
-            HumanoidRootPart.CFrame = racistPeople[Value]
+            HumanoidRootPart.CFrame = NpcFolder:FindFirstChild(Value):WaitForChild("HumanoidRootPart").CFrame + Vector3.new(0, 1, 0)
         end
     end
 })
@@ -373,48 +644,85 @@ LocalPlayerGroup:AddToggle('AntiDrown', {
     end
 })
 
+local ResetRodGroup = Tabs.LocalPlayer:AddRightGroupbox('Reset')
+
+local ResetRodButton = ResetRodGroup:AddButton({
+    Text = 'Reset rod',
+    Func = function()
+        local tool = LocalCharacter:FindFirstChildOfClass("Tool")
+
+        if tool:FindFirstChild("events"):WaitForChild("reset") ~= nil then
+            tool.events.reset:FireServer()
+        end
+    end,
+    DoubleClick = false,
+    Tooltip = 'Resets your rod'
+})
+
 -- Settings
 
 local SettingsGroup = Tabs.Settings:AddLeftGroupbox('Settings')
-local DiscordInvGroup = Tabs.Settings:AddRightGroupbox('Discord Invite')
+local CreditsGroup = Tabs.Settings:AddRightGroupbox('Credits')
 
-local DiscordInvButton = DiscordInvGroup:AddButton({
-    Text = 'Copy Discord link',
+CreditsGroup:AddLabel('Made by kylosilly and netpa!')
+CreditsGroup:AddLabel('Made with love and hate :3')
+
+local DiscordButton = CreditsGroup:AddButton({
+    Text = 'Copy Fisch Discord Link',
+    Func = function()
+        setclipboard('https://discord.gg/DEkfE99JFh')
+    end,
+    DoubleClick = false,
+    Tooltip = 'Join our fisch discord!'
+})
+
+local DiscordButton2 = CreditsGroup:AddButton({
+    Text = 'Copy Main Discord link',
     Func = function()
         setclipboard('https://discord.gg/VudXCDCaBN')
     end,
     DoubleClick = false,
-    Tooltip = 'Join our discord!'
+    Tooltip = 'Join our main discord!'
 })
+
+CreditsGroup:AddLabel('البرود يا جماعه هو الحل')
 
 SettingsGroup:AddButton('Unload', function() Library:Unload() end)
 
 Library:OnUnload(function()
 	Library.Unloaded = true
-    if autoReel == true then
+    if autoReel then
         autoReel = false
     end
-    if autoShake == true then
+    if autoShake then
         autoShake = false
     end
-    if AntiDrown == true then
+    if AntiDrown then
         if LocalCharacter ~= nil and LocalCharacter:FindFirstChild("client"):WaitForChild("oxygen") ~= nil and LocalCharacter:FindFirstChild("client"):WaitForChild("oxygen").Enabled == false then
             LocalCharacter.client.oxygen.Enabled = true
             CharAddedAntiDrownCon:Disconnect()
             AntiDrown = false
         end
     end
-    if Noclip == true then
+    if Noclip then
         Noclip = false
     end
-    if AutoCast == true then
-        AutoCast = false
+    if autoCast then
+        autoCast = false
     end
-    if HumanoidRootPart.Anchored == true then
-        HumanoidRootPart.Anchored = false
+    if ZoneCast then
+        ZoneCast = false
+    end
+    if CollarPlayer then
+        CollarPlayer = false
     end
     WatermarkConnection:Disconnect()
     NoclipConnection:Disconnect()
+    autoreelandshakeConnection:Disconnect()
+    autoCastConnection:Disconnect()
+    autoCastConnection2:Disconnect()
+    ZoneConnection:Disconnect()
+    CollarConnection:Disconnect()
 end)
 
 SettingsGroup:AddLabel('Menu bind'):AddKeyPicker('MenuKeybind', { Default = 'End', NoUI = true, Text = 'Menu keybind' })
@@ -438,3 +746,19 @@ SaveManager:BuildConfigSection(Tabs.Settings)
 ThemeManager:ApplyToTab(Tabs.Settings)
 
 SaveManager:LoadAutoloadConfig()
+
+local Version = 1.2
+
+task.spawn(function()
+    local success, LatestVer = pcall(function()
+        local version = game:HttpGet("https://raw.githubusercontent.com/kylosilly/femboyware/refs/heads/main/fischver")
+        return HttpService:JSONDecode(version)
+    end)
+    
+    if success then
+        if Version ~= LatestVer then
+            Library:Notify("You are using an outdated version of the Fisch script.")
+            Library:Notify("Join our fisch discord server to get the new script.")
+        end
+    end
+end)

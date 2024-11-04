@@ -7,7 +7,7 @@ local ThemeManager = loadstring(game:HttpGet(repo ..'Gui%20Lib%20%5BThemeManager
 local SaveManager = loadstring(game:HttpGet(repo ..'Gui%20Lib%20%5BSaveManager%5D'))()
 
 local Window = Library:CreateWindow({
-    Title = 'Fisch',
+    Title = 'Fisch (BETA VERSION !!)',
     Center = true,
     AutoShow = true,
     TabPadding = 8,
@@ -32,6 +32,8 @@ local WatermarkConnection = game:GetService('RunService').RenderStepped:Connect(
         math.floor(game:GetService('Stats').Network.ServerStatsItem['Data Ping']:GetValue())
     ));
 end);
+
+local Version = 1.2.1
 
 -- Tabs
 
@@ -126,9 +128,16 @@ autoreelandshakeConnection = PlayerGUI.ChildAdded:Connect(function(GUI)
                             elseif autoShakeMethod == "firesignal" then
                                 firesignal(child.MouseButton1Click)
                             elseif autoShakeMethod == "KeyCodeEvent" then
+                                GuiService.Changed:Connect(function(property)
+                                    GuiService.SelectedObject = child
+                                    if property == "SelectedObject" then
+                                        if GuiService.SelectedObject == child then
+                                            VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.Return, false, game)
+                                            VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.Return, false, game)
+                                        end
+                                    end
+                                end)
                                 GuiService.SelectedObject = child
-                                VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.Return, false, game)
-                                VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.Return, false, game)
                             end
                         end
                     end
@@ -277,6 +286,12 @@ for i, v in pairs(NpcFolder:GetChildren()) do
         table.insert(racistPeople, v.Name)
     end
 end
+
+NpcFolder.ChildAdded:Connect(function(child)
+    if table.find(racistPeople, child.Name) == nil and child.Name ~= "mirror Area" then
+        table.insert(racistPeople, child.Name)
+    end
+end)
 
 -- Main
 
@@ -677,7 +692,7 @@ local DiscordButton = CreditsGroup:AddButton({
 })
 
 local DiscordButton2 = CreditsGroup:AddButton({
-    Text = 'Copy Main Discord Link',
+    Text = 'Copy Main Discord link',
     Func = function()
         setclipboard('https://discord.gg/VudXCDCaBN')
     end,
@@ -746,8 +761,6 @@ SaveManager:BuildConfigSection(Tabs.Settings)
 ThemeManager:ApplyToTab(Tabs.Settings)
 
 SaveManager:LoadAutoloadConfig()
-
-local Version = 1.2
 
 task.spawn(function()
     local success, LatestVer = pcall(function()

@@ -33,8 +33,6 @@ local WatermarkConnection = game:GetService('RunService').RenderStepped:Connect(
     ));
 end);
 
-local Version = 1.2.1
-
 -- Tabs
 
 local Tabs = {
@@ -761,6 +759,8 @@ SaveManager:BuildConfigSection(Tabs.Settings)
 ThemeManager:ApplyToTab(Tabs.Settings)
 
 SaveManager:LoadAutoloadConfig()
+
+local Version = "1.2.1"
 
 task.spawn(function()
     local success, LatestVer = pcall(function()

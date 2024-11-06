@@ -1,4 +1,4 @@
--- Made by kylosilly and netpa :3
+-- Made by kylosilly and netpa :3 (speed hub pls dont skid thanks)
 
 local repo = 'https://raw.githubusercontent.com/KINGHUB01/Gui/main/'
 
@@ -7,7 +7,7 @@ local ThemeManager = loadstring(game:HttpGet(repo ..'Gui%20Lib%20%5BThemeManager
 local SaveManager = loadstring(game:HttpGet(repo ..'Gui%20Lib%20%5BSaveManager%5D'))()
 
 local Window = Library:CreateWindow({
-    Title = 'Fisch (BETA VERSION !!)',
+    Title = 'Fisch V1.2.2 (BETA)',
     Center = true,
     AutoShow = true,
     TabPadding = 8,
@@ -67,6 +67,7 @@ local fisktable = {}
 
 local VirtualInputManager = game:GetService("VirtualInputManager")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local VirtualUser = game:GetService("VirtualUser")
 local HttpService = game:GetService("HttpService")
 local GuiService = game:GetService("GuiService")
 local RunService = game:GetService("RunService")
@@ -107,6 +108,7 @@ local Noclip = false
 local AntiDrown = false
 local CollarPlayer = false
 local Target
+local FreezeChar = false
 
 -- Rest
 
@@ -123,19 +125,25 @@ autoreelandshakeConnection = PlayerGUI.ChildAdded:Connect(function(GUI)
                                 local size = child.AbsoluteSize
                                 VirtualInputManager:SendMouseButtonEvent(pos.X + size.X / 2, pos.Y + size.Y / 2, 0, true, LocalPlayer, 0)
                                 VirtualInputManager:SendMouseButtonEvent(pos.X + size.X / 2, pos.Y + size.Y / 2, 0, false, LocalPlayer, 0)
-                            elseif autoShakeMethod == "firesignal" then
-                                firesignal(child.MouseButton1Click)
+                            --[[elseif autoShakeMethod == "firesignal" then
+                                firesignal(child.MouseButton1Click)]]
                             elseif autoShakeMethod == "KeyCodeEvent" then
-                                GuiService.Changed:Connect(function(property)
-                                    GuiService.SelectedObject = child
-                                    if property == "SelectedObject" then
+                                while WaitForSomeone(RenderStepped) do
+                                    if GUI == nil then
+                                        break
+                                    end
+                                    if autoShake and child ~= nil then
+                                        task.wait()
+                                        GuiService.SelectedObject = child
                                         if GuiService.SelectedObject == child then
                                             VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.Return, false, game)
                                             VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.Return, false, game)
                                         end
+                                    else
+                                        GuiService.SelectedObject = nil
+                                        break
                                     end
-                                end)
-                                GuiService.SelectedObject = child
+                                end
                             end
                         end
                     end
@@ -151,7 +159,7 @@ autoreelandshakeConnection = PlayerGUI.ChildAdded:Connect(function(GUI)
 end)
 
 autoCastConnection = LocalCharacter.ChildAdded:Connect(function(child)
-    if child:IsA("Tool") and child:FindFirstChild("events"):WaitForChild("cast") ~= nil and autoCast == true then
+    if child:IsA("Tool") and child:FindFirstChild("events"):WaitForChild("cast") ~= nil and autoCast then
         task.wait(autoCastDelay)
         if autoCastMode == "Legit" then
             VirtualInputManager:SendMouseButtonEvent(0, 0, 0, true, LocalPlayer, 0)
@@ -196,7 +204,7 @@ autoCastConnection2 = PlayerGUI.ChildRemoved:Connect(function(GUI)
 end)
 
 ZoneConnection = LocalCharacter.ChildAdded:Connect(function(child)
-    if ZoneCast and child:IsA("Tool") and FishingZonesFolder:FindFirstChild(Zone) ~= nil and fisktable ~= nil then
+    if ZoneCast and child:IsA("Tool") and FishingZonesFolder:FindFirstChild(Zone) ~= nil then
         child.ChildAdded:Connect(function(blehh)
             if blehh.Name == "bobber" then
                 local RopeConstraint = blehh:FindFirstChildOfClass("RopeConstraint")
@@ -239,7 +247,7 @@ CollarConnection = LocalCharacter.ChildAdded:Connect(function(child)
                 while WaitForSomeone(RenderStepped) do
                     if CollarPlayer and blehh.Parent ~= nil then
                         task.wait()
-                        blehh.CFrame = Players:FindFirstChild(Target).Character:FindFirstChild("Head").CFrame + Vector3.new(0, -0.5, 0)
+                        blehh.CFrame = Players:FindFirstChild(Target).Character:FindFirstChild("Head").CFrame + Vector3.new(0, -1, 0)
                     else
                         break
                     end
@@ -260,6 +268,12 @@ NoclipConnection = RunService.Stepped:Connect(function()
         end
     end
 end)
+
+local SafeZone = Instance.new("Part")
+SafeZone.Parent = Workspace
+SafeZone.Size = Vector3.new(50, 2, 50)
+SafeZone.CFrame = CFrame.new(9999, 9999, 9999)
+SafeZone.Anchored = true
 
 for i, v in pairs(FishingZonesFolder:GetChildren()) do
     if table.find(fisktable, v.Name) == nil then
@@ -297,7 +311,7 @@ local AutoShakeGroup = Tabs.Main:AddLeftGroupbox('AutoShake')
 local AutoReelGroup = Tabs.Main:AddLeftGroupbox('AutoReel')
 local AutoCastGroup = Tabs.Main:AddLeftGroupbox('AutoCast')
 local FishUtilitiesGroup = Tabs.Main:AddRightGroupbox('Fish (🐟) Utilities')
-local EventGroup = Tabs.Main:AddRightGroupbox('Event')
+--local EventGroup = Tabs.Main:AddRightGroupbox('Event')
 local ZoneCastGroup = Tabs.Main:AddRightGroupbox('ZoneCast')
 local CollarPlayerGroup = Tabs.Main:AddRightGroupbox('CollarPlayer')
 
@@ -315,7 +329,7 @@ local AutoShakeSettings = AutoShakeGroup:AddDependencyBox()
 AutoShakeSettings:AddDropdown('AutoShakeMode', {
     Text = 'Auto Shake Method',
     Tooltip = 'Method to click on the shake button',
-    Values = {'ClickEvent', 'firesignal', 'KeyCodeEvent' },
+    Values = {'ClickEvent', --[['firesignal',]] 'KeyCodeEvent' },
     Default = autoShakeMethod,
   
     Callback = function(Value)
@@ -492,6 +506,7 @@ local SellAllButton = FishUtilitiesGroup:AddButton({
     Tooltip = 'Appraises the fish you are holding'
 })
 
+--[[
 EventGroup:AddDropdown('Event', {
     Text = 'Item Grabber',
     Tooltip = 'Grabs the Event Item',
@@ -526,6 +541,7 @@ EventGroup:AddDropdown('Event', {
 })
 
 EventGroup:AddLabel("Might be buggy!")
+]]
 
 ZoneCastGroup:AddToggle('ZoneCast', {
     Text = 'Enabled',
@@ -621,6 +637,17 @@ TeleportsGroup:AddDropdown('ItemTeleport', {
     end
 })
 
+local TeleportToSafeZoneGroup = Tabs.Teleports:AddRightGroupbox('Safe Zone')
+
+local TeleportToSafeZoneButton = TeleportToSafeZoneGroup:AddButton({
+    Text = 'Teleport to safe zone',
+    Func = function()
+        HumanoidRootPart.CFrame = SafeZone.CFrame + Vector3.new(0, 2, 0)
+    end,
+    DoubleClick = false,
+    Tooltip = 'Teleports you to a safe zone'
+})
+
 -- LocalPlayer
 
 local LocalPlayerGroup = Tabs.LocalPlayer:AddLeftGroupbox('LocalPlayer')
@@ -670,6 +697,42 @@ local ResetRodButton = ResetRodGroup:AddButton({
     end,
     DoubleClick = false,
     Tooltip = 'Resets your rod'
+})
+
+local AntiAfkGroup = Tabs.LocalPlayer:AddRightGroupbox('AntiAFK')
+
+local AntiAFKButton = AntiAfkGroup:AddButton({
+    Text = 'Anti-AFK',
+    Func = function()
+        Library:Notify("Anti-AFK is now running!")
+        LocalPlayer.Idled:Connect(function()
+            VirtualUser:CaptureController()
+            VirtualUser:ClickButton2(Vector2.new())
+        end)
+    end,
+    DoubleClick = false,
+    Tooltip = 'Disables idle kick'
+})
+
+local FreezeCharacterGroup = Tabs.LocalPlayer:AddLeftGroupbox('Freeze Character')
+
+FreezeCharacterGroup:AddToggle('FreezeCharacter', {
+    Text = 'Enabled',
+    Default = false,
+    Tooltip = "Freezes your character in current location",
+    Callback = function(Value)
+        local oldpos = HumanoidRootPart.CFrame
+        FreezeChar = Value
+        task.wait()
+        while WaitForSomeone(RenderStepped) do
+            if FreezeChar and HumanoidRootPart ~= nil then
+                task.wait()
+                HumanoidRootPart.CFrame = oldpos
+            else
+                break
+            end
+        end
+    end
 })
 
 -- Settings
@@ -760,7 +823,7 @@ ThemeManager:ApplyToTab(Tabs.Settings)
 
 SaveManager:LoadAutoloadConfig()
 
-local Version = "1.2.1"
+local Version = "1.2.2"
 
 task.spawn(function()
     local success, LatestVer = pcall(function()

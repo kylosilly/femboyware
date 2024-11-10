@@ -94,7 +94,7 @@ end
 
 local autoShake = false
 local autoShakeDelay = 0.1
-local autoShakeMethod = "ClickEvent"
+local autoShakeMethod = "KeyCodeEvent"
 local autoShakeClickOffsetX = 0
 local autoShakeClickOffsetY = 0
 local autoReel = false

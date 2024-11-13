@@ -7,7 +7,7 @@ local ThemeManager = loadstring(game:HttpGet(repo ..'Gui%20Lib%20%5BThemeManager
 local SaveManager = loadstring(game:HttpGet(repo ..'Gui%20Lib%20%5BSaveManager%5D'))()
 
 local Window = Library:CreateWindow({
-    Title = 'Fisch V1.2.2 (BETA)',
+    Title = 'Fisch V1.2.3 (BETA)',
     Center = true,
     AutoShow = true,
     TabPadding = 8,
@@ -27,7 +27,7 @@ local WatermarkConnection = game:GetService('RunService').RenderStepped:Connect(
         FrameCounter = 0;
     end;
 
-    Library:SetWatermark(('Rinns Hub V1 | %s fps | %s ms'):format(
+    Library:SetWatermark(('Rinns Hub V1.2.3 | %s fps | %s ms'):format(
         math.floor(FPS),
         math.floor(game:GetService('Stats').Network.ServerStatsItem['Data Ping']:GetValue())
     ));
@@ -129,16 +129,15 @@ autoreelandshakeConnection = PlayerGUI.ChildAdded:Connect(function(GUI)
                                 firesignal(child.MouseButton1Click)]]
                             elseif autoShakeMethod == "KeyCodeEvent" then
                                 while WaitForSomeone(RenderStepped) do
-                                    if GUI == nil then
-                                        break
-                                    end
-                                    if autoShake and child ~= nil then
+                                    if autoShake and GUI.safezone:FindFirstChild(child.Name) ~= nil then
                                         task.wait()
-                                        GuiService.SelectedObject = child
-                                        if GuiService.SelectedObject == child then
-                                            VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.Return, false, game)
-                                            VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.Return, false, game)
-                                        end
+                                        pcall(function()
+                                            GuiService.SelectedObject = child
+                                            if GuiService.SelectedObject == child then
+                                                VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.Return, false, game)
+                                                VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.Return, false, game)
+                                            end
+                                        end)
                                     else
                                         GuiService.SelectedObject = nil
                                         break
@@ -823,7 +822,7 @@ ThemeManager:ApplyToTab(Tabs.Settings)
 
 SaveManager:LoadAutoloadConfig()
 
-local Version = "1.2.2"
+local Version = "1.2.3"
 
 task.spawn(function()
     local success, LatestVer = pcall(function()

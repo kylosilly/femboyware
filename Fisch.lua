@@ -1,4 +1,4 @@
--- Made by kylosilly and netpa :3 (space hub pls dont skid thanks)
+-- Made by kylosilly and netpa :3 (space hub pls dont skid thanks thier hwid and keys list: https://pastebin.com/vCwfFmP0)
 
 local repo = 'https://raw.githubusercontent.com/KINGHUB01/Gui/main/'
 

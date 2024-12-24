@@ -47,7 +47,7 @@ local InfMoneButton = LeftGroupBox:AddButton({
         Module["Cardboard 'Safe'"].Cost = -math.huge
     end,
     DoubleClick = false,
-    Tooltip = 'Buy a cardboard safe for infinite money, usable only for prestiges or attachments. The money lasts until you leave the game.'
+    Tooltip = 'Buy a cardboard safe for infinite money, usable only for attachments or any gun (GUNS DONT SAVE OR ANYTHING YOU BUY WITH INF MONEY)'
 })
 
 local AttachmentsButton = LeftGroupBox:AddButton({
@@ -104,22 +104,21 @@ local SusButton = LeftGroupBox:AddButton({
 })
 
 local GadgetButton = LeftGroupBox:AddButton({
-    Text = 'Give yourself gamepass gadgets',
+    Text = 'Give yourself all gamepass guns',
     Func = function()
-        local gamepassguns = {
-            "Flare Gun",
-            "Subspace Tripmine",
-            "Trip Mine",
-            "Dynamite",
-            "Smoke Bomb",
-            "Shuriken"
-        }
-        
-        for i, gun in pairs(gamepassguns) do
-            local args = {[1] = gun}
-            game:GetService("ReplicatedStorage"):WaitForChild("BuyArmor"):FireServer(unpack(args))
-            Library:Notify("Play 1 game to get the items if it didnt work report this to the discord server (USE ON ALT AS ITS SEMI DETECTED)")
+        local ReplicatedStorage = game:GetService("ReplicatedStorage")
+        local NewWeapons = ReplicatedStorage:WaitForChild("NewWeapons")
+
+        for _, tool in pairs(NewWeapons:GetChildren()) do
+            if tool:IsA("Tool") then
+                local args = {[1] = tool.Name}
+                task.defer(function()
+                    ReplicatedStorage:WaitForChild("BuyArmor"):FireServer(unpack(args))
+                    ReplicatedStorage:WaitForChild("BuyGun"):FireServer(unpack(args))
+                end)
+            end
         end
+        Library:Notify("REJOIN OR PLAY 1 GAME TO GET (SEMI DETECTED USE ON ALT MADE BY discord.gg/rinnshub)")
     end,
     DoubleClick = false,
     Tooltip = 'USE ON ALT ACCOUNT'

@@ -104,13 +104,15 @@ local SusButton = LeftGroupBox:AddButton({
 })
 
 local GadgetButton = LeftGroupBox:AddButton({
-    Text = 'Give yourself gamepass gadgets (USE ON ALT)',
+    Text = 'Give yourself gamepass gadgets',
     Func = function()
         local gamepassguns = {
             "Flare Gun",
             "Subspace Tripmine",
             "Trip Mine",
             "Dynamite",
+            "Smoke Bomb",
+            "Shuriken"
         }
         
         for i, gun in pairs(gamepassguns) do
@@ -120,7 +122,7 @@ local GadgetButton = LeftGroupBox:AddButton({
         end
     end,
     DoubleClick = false,
-    Tooltip = 'Why you stomp me and my gang >:( !!!'
+    Tooltip = 'USE ON ALT ACCOUNT'
 })
 
 local SpamButton = RightGroupBox:AddButton({

@@ -104,7 +104,7 @@ local SusButton = LeftGroupBox:AddButton({
 })
 
 local GadgetButton = LeftGroupBox:AddButton({
-    Text = 'Give yourself gamepass gadgets',
+    Text = 'Give yourself gamepass gadgets (USE ON ALT)',
     Func = function()
         local gamepassguns = {
             "Flare Gun",

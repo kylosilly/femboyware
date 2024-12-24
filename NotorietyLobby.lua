@@ -110,13 +110,13 @@ local GadgetButton = LeftGroupBox:AddButton({
             "Flare Gun",
             "Subspace Tripmine",
             "Trip Mine",
-            "Dynamite"
+            "Dynamite",
         }
         
         for i, gun in pairs(gamepassguns) do
             local args = {[1] = gun}
             game:GetService("ReplicatedStorage"):WaitForChild("BuyArmor"):FireServer(unpack(args))
-            Library:Notify("Play a game finish it and the free gadets should be in your inventory (if this didnt give 1 report console errors after ran!)")
+            Library:Notify("Play 1 game to get the items if it didnt work report this to the discord server (USE ON ALT AS ITS SEMI DETECTED)")
         end
     end,
     DoubleClick = false,

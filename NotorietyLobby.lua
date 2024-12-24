@@ -118,7 +118,7 @@ local GadgetButton = LeftGroupBox:AddButton({
                 end)
             end
         end
-        Library:Notify("REJOIN OR PLAY 1 GAME TO GET (SEMI DETECTED USE ON ALT MADE BY discord.gg/rinnshub)")
+        Library:Notify("REJOIN OR PLAY 1 GAME TO GET (SEMI DETECTED USE ON ALT MADE BY @kylosilly discord.gg/rinnshub)")
     end,
     DoubleClick = false,
     Tooltip = 'USE ON ALT ACCOUNT'

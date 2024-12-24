@@ -111,7 +111,6 @@ local GadgetButton = LeftGroupBox:AddButton({
             "Subspace Tripmine",
             "Trip Mine",
             "Dynamite",
-            "Shuriken "
         }
         
         for i, gun in pairs(gamepassguns) do
